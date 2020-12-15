@@ -1,22 +1,27 @@
 <template >
     <div class="container">
-        <div class = "popup-wrapper"v-if="is_show" @click="is_show = false" style=""></div>
-        <main> 
-            <!-- pop up -->
-                    <div v-if="is_show" class="popup" style="z-index:6;">
-                        <div class="popup-content">
-                            <form @submit.prevent="insertUpdate()" class="teacherInsertForm">
-                                <input type="text" required v-model="teacher_model.nama_teacher" name="nameInput" placeholder="Nama">
-                                <input type="text" required v-model="teacher_model.Status" placeholder="Status">
-                                <input type="text" required v-model="teacher_model.kontak_teacher" placeholder="Kontak">
-                                <input class="rounded-button" value="Go" type="submit">
-                            </form>
-                        </div>
-                    </div>
 
-                <h1>Teacher Management</h1>
+        <div class="overlay" v-if="is_show" @click="is_show = false"></div>
+        
+        <main> 
+
+            <!-- pop up -->
+            <div v-if="is_show" class="popup" style="z-index:6;">
+                <div class="popup-content">
+                    <form @submit.prevent="insertUpdate()" class="teacherInsertForm">
+                        <input type="text" required v-model="teacher_model.nama_teacher" name="nameInput" placeholder="Nama">
+                        <input type="text" required v-model="teacher_model.Status" placeholder="Status">
+                        <input type="text" required v-model="teacher_model.kontak_teacher" placeholder="Kontak">
+                        <input class="rounded-button" value="Go" type="submit">
+                    </form>
+                </div>
+            </div>
+
+            <!-- table -->
+            <h1>Teacher Management</h1>
             <button @click="is_show=true">Tambah</button>
             <button @click="is_show=true">Assign</button>
+
             <table>
                 <tr>
                     <th>ID</th>
@@ -31,28 +36,31 @@
                     <td>{{teacher.Teacher_Contact}}</td>
                 </tr>
             </table>
+
         </main>
+    
     </div>
+
 </template>
 
 <style>
-/*this is style for the popup */
+    
     main{
         font-family: ;
     }
+
     .container{
         width: 100%;
         height:100%;
     }
-    .popup-wrapper {
+
+    .overlay {
+        background-color: #000;
         z-index:4;
         position:absolute;
         width:100%;
         height:100%;
-        background-color:#000;
-        opacity:0.4;
-        
-
+        opacity:0.5;
     }
 
     .popup {
@@ -128,6 +136,9 @@
 </style>
 
 <script>
+
+    import {base_url} from '../functions/global.js';
+
     const axios = require('axios');
     export default {
     data(){
@@ -146,7 +157,7 @@
         getData:function(){
             var app = this;
 
-            axios.get('http://localhost/CrumbsAPI/getTeacher.php')
+            axios.get(base_url + '/getTeacher.php')
             .then(function (response){
                 console.log(response.data);
                 app.TeacherData = response.data;
@@ -175,7 +186,6 @@
             .catch(function(error){
                 console.log(error);
                 console.log("something went wrong");
-
             });
             
         },
