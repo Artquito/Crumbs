@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+import Dashboard from '../views/Dashboard.vue'
+import TeacherManager from '../views/teacher.vue'
+import CurriculumBox from '../views/Curriculums.vue'
+import Class_Manager from '../views/Classes.vue'
+import Student_Manager from '../views/Students.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -11,13 +15,32 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard
+  },
+
+  {
+    path: '/teacher',
+    name: 'TeacherManager',
+    component: TeacherManager
+  },
+  {
+    path: '/curriculums',
+    name: 'Curriculum_Box',
+    component: CurriculumBox
+  },
+  {
+    path: '/classes',
+    name: 'Class_Manager',
+    component: Class_Manager
+  },
+  {
+    path: '/students',
+    name: 'Student_Manager',
+    component: Student_Manager
+  },
+
 ]
 
 const router = new VueRouter({
