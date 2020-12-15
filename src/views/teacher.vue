@@ -192,7 +192,7 @@
             axios.get('http://localhost/CrumbsAPI/insert_updateTeacher.php' + get_parameter)
             .then(function (response){
                 console.log(response.data);
-                app.TeacherData = response.data;
+                this.TeacherData = response.data;
                 app.is_show = false;
             })
             .catch(function(error){
