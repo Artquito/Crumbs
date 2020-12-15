@@ -1,21 +1,25 @@
 <template >
     <div class="container">
 
-        <div class="overlay" v-if="is_show" @click="is_show = false"></div>
-        
+        <transition name="fade">
+            <div class="overlay" v-if="is_show" @click="is_show = false"></div>
+        </transition>
+
         <main> 
 
             <!-- pop up -->
-            <div v-if="is_show" class="popup" style="z-index:6;">
-                <div class="popup-content">
-                    <form @submit.prevent="insertUpdate()" class="teacherInsertForm">
-                        <input type="text" required v-model="teacher_model.nama_teacher" name="nameInput" placeholder="Nama">
-                        <input type="text" required v-model="teacher_model.Status" placeholder="Status">
-                        <input type="text" required v-model="teacher_model.kontak_teacher" placeholder="Kontak">
-                        <input class="rounded-button" value="Go" type="submit">
-                    </form>
+            <transition name="fade">
+                <div v-if="is_show" class="popup" style="z-index:6;">
+                    <div class="popup-content">
+                        <form @submit.prevent="insertUpdate()" class="teacherInsertForm">
+                            <input type="text" required v-model="teacher_model.nama_teacher" name="nameInput" placeholder="Nama">
+                            <input type="text" required v-model="teacher_model.Status" placeholder="Status">
+                            <input type="text" required v-model="teacher_model.kontak_teacher" placeholder="Kontak">
+                            <input class="rounded-button" value="Go" type="submit">
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </transition>
 
             <!-- table -->
             <h1>Teacher Management</h1>
@@ -44,7 +48,15 @@
 </template>
 
 <style>
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .3s;
+    }
     
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+
     main{
         font-family: ;
     }
