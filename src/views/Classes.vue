@@ -1,5 +1,15 @@
 <template>
     <main>
+        <div class="popup">
+            <div class="popup-content">
+                <form @submit.prevent="Insert_Update_Student_Data()" class="teacherInsertForm">
+                    <input type="text" required v-model="Student_Data_Catch.Student_Name" name="nameInput" placeholder="Nama">
+                    <input type="text" required v-model="Student_Data_Catch.Student_Age" placeholder="Umur">
+                    <input type="text" required v-model="Student_Data_Catch.Student_Contact" placeholder="Kontak">
+                    <input class="rounded-button" value="Go" type="submit">
+                </form>
+            </div>
+        </div>
         <h1>Class Management</h1>
         <button>Start a Session</button>
         <button>Make a Session</button>
@@ -27,7 +37,7 @@
     </main>
 </template>
 
-<style>
+<style scoped>
     /*table style*/
     table {
             font-family: arial, sans-serif;

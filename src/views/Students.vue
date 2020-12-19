@@ -1,17 +1,21 @@
 <template>
-   <main>
-       <div class="popup-wrapper">
-            <div class="popup">
-                <div class="popup-content">
-                    <form @submit.prevent="Insert_Update_Student_Data()" class="teacherInsertForm">
-                        <input type="text" required v-model="Student_Data_Catch.Student_Name" name="nameInput" placeholder="Nama">
-                        <input type="text" required v-model="Student_Data_Catch.Student_Age" placeholder="Umur">
-                        <input type="text" required v-model="Student_Data_Catch.Student_Contact" placeholder="Kontak">
-                        <input class="rounded-button" value="Go" type="submit">
-                    </form>
-                </div>
+<div class="container">
+    <transition name="fade">
+            <div class="overlay" v-if="is_show" @click="is_show = false"></div>
+    </transition>
+
+    <main>  
+        <div class="popup">
+            <div class="popup-content">
+                <form @submit.prevent="Insert_Update_Student_Data()" class="teacherInsertForm">
+                    <input type="text" required v-model="Student_Data_Catch.Student_Name" name="nameInput" placeholder="Nama">
+                    <input type="text" required v-model="Student_Data_Catch.Student_Age" placeholder="Umur">
+                    <input type="text" required v-model="Student_Data_Catch.Student_Contact" placeholder="Kontak">
+                    <input class="rounded-button" value="Go" type="submit">
+                </form>
             </div>
         </div>
+        
        <h1>Student Management</h1>
         <button>Tambah Murid</button>
         <button></button>
@@ -30,21 +34,36 @@
             </tr>
         </table>
    </main> 
+</div>
+   
 </template>
 
-<style>
+<style scoped>
 /* popup style */
-.container{
+.fade-enter-active, .fade-leave-active {
+        transition: opacity .3s;
+    }
+    
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+
+    main{
+        font-family: ;
+    }
+
+    .container{
         width: 100%;
         height:100%;
     }
-    .popup-wrapper {
-        background : rgba(0,0,0,0);
-        width: 100%;
-        height: 100%;
-        margin-top: 0px;
-        margin-bottom:0px;
-        position: fixed;
+
+    .overlay {
+        background-color: #000;
+        z-index:4;
+        position:absolute;
+        width:100%;
+        height:100%;
+        opacity:0.5;
     }
 
     .popup {
