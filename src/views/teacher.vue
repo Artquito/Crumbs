@@ -6,25 +6,30 @@
         </transition>
 
         <main> 
-            <div class="card">
+            <!-- <div class="card">
                 <p>Similar post </p>
                 <h2>How I recreated a Polaroid camera with CSS gradients only </h2>
-            </div>
+            </div> -->
 
             <!-- pop up -->
             <transition name="fade">
                 <div v-if="is_show" class="popup" style="z-index:6;">
                     <div class="popup-content">
                         <form @submit.prevent="insertUpdate()" class="teacherInsertForm">
-                            <input type="text" required v-model="teacher_model.nama_teacher" name="nameInput" placeholder="Nama">
-                            <input type="text" required v-model="teacher_model.Status" placeholder="Status">
-                            <input type="text" required v-model="teacher_model.kontak_teacher" placeholder="Kontak">
-                            <div class="button">
-                            <button type="submit" style="background:transparent;border:none" value="tes">
+                            <input type="text" style="margin-top =15px" required v-model="teacher_model.nama_teacher" name="nameInput" placeholder="Teacher Name">
+                            <select class="teacher-status-dropdown" required v-model="teacher_model.Status" >
+                                <option value="" selected disabled hidden>Teacher Status</option>
+                                <option value="Tetap">Employee</option>
+                                <option value="Honorer">Honorarium</option>
+                                <option value="Magang">Intern</option>   
+                            </select>
+                            <input type="text" required v-model="teacher_model.kontak_teacher" placeholder="Teacher Contact">
+                            <div class="button" style="margin: 10px 0 15px 0">
+                            <button type="submit" style="background:transparent;border:none;" value="tes">
                                 <div class="button" id="button-5">
                                     <div id="translate"></div>
-                                        <a href="#">Let's Go!</a>
-                                    </div>
+                                    <a href="#">Let's Go!</a>
+                                </div>
                             </button>
                             </div>  
                         </form>
@@ -34,21 +39,31 @@
 
             <!-- table -->
             <h1>Teacher Management</h1>
-            <button @click="is_show=true">Tambah</button>
-            <button @click="is_show=true">Assign</button>
+            <button class="big-button" @click="is_show=true">Add Teacher</button>
 
-            <table>
+            <table style="margin-top:40px;">
                 <tr>
                     <th>ID</th>
-                    <th>Nama</th>
+                    <th>Name</th>
                     <th>Status</th>
-                    <th>Kontak</th>
+                    <th>Contact</th>
+                    <th style="text-align:center">Buttons</th>
                 </tr>    
-                <tr v-for="(teacher,index) in TeacherData" @click="teacher_model = teacher">
+                <tr v-for="(teacher,Teacherindex) in TeacherData" @click="teacher_model = teacher" :key="Teacherindex">
                     <td>{{teacher.Teacher_Id}}</td>
                     <td>{{teacher.Teacher_Name}}</td>
                     <td>{{teacher.Teacher_Status}}</td>
                     <td>{{teacher.Teacher_Contact}}</td>
+                    <td style="width: 10%">
+                        <div class="button_container">
+                        <button class="edit" style=" margin:0 .5rem 0 .8rem">
+                        edit
+                        </button>
+                        <button class="delete">
+                        delete
+                        </button>
+                        </div>
+                    </td>
                 </tr>
             </table>
 
@@ -59,6 +74,13 @@
 </template>
 
 <style>
+    .popup select:invalid{
+        color: gray;
+        border: none;
+    }
+    .teacher-adder-button{
+        margin: 0 0 5px 0;
+    }
     :root {
         --primary: #22D2A0;
         --secondary: #192824;
@@ -114,7 +136,7 @@
         padding-bottom:30px;
         padding-top: 30px;
     }
-    .popup input{
+    .popup input[type=text]{
         background: #141418;
         margin-top: 10px;
         width : 100%;
@@ -123,6 +145,13 @@
         height: 2.5em;
         color:#b6b6b6;
         
+    }
+    .teacher-status-dropdown{
+        background: #141418;
+        color: #b6b6b6;
+        margin-top: 10px;
+        width: 100%;
+        height: 2.5em;
     }
 
     .popup input:last-child {
@@ -140,7 +169,7 @@
         margin-top: 10px;
     }
 
-    input{
+    input [type=text]{
     display: block;
     }
 
@@ -150,13 +179,15 @@
 /*this is the style for the tabel */
     
     table {
-        font-family: 'Open Sans';
+        font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
+        height: 100%;
+        overflow-y: scroll;
         }
 
         td, th {
-        border: 2px solid var(--green);
+        border: 2px solid #2ecc71;
         text-align: left;
         padding: 8px;
         }
@@ -165,11 +196,15 @@
         background-color: #2d3436;
         }
 /*This Style is For Cards */
-    .card {
+    /* .card {
         background-color: var(--background);
         color: var(--primary);
-        display: none;
+        display: block;
+        position: absolute;
         width: 300px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
         min-height: 90px;
         cursor: pointer;
         padding: 15px;
@@ -235,6 +270,7 @@
         padding: 0;
         margin: 0;
         box-sizing: border-box;
+        z-index: 0;
     }
 
     /* body {
@@ -244,7 +280,7 @@
         color: var(--primary);
     } */
 
-    .card p {
+    /* .card p {
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -255,7 +291,7 @@
     .card h2 {
         font-size: 14px;;
         font-weight: normal;
-    }
+    } */
 
     /* Button Style */
     .button {
@@ -271,13 +307,15 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-}
-
-a {
-  color: #BFC0C0;
-  text-decoration: none;
-  letter-spacing: 1px;
-}
+    }
+    .button button{
+        margin: 10px 10px;
+    }
+    a {
+    color: #BFC0C0;
+    text-decoration: none;
+    letter-spacing: 1px;
+    }
     #button-5 {
         position: relative;
         overflow: hidden;
@@ -357,6 +395,11 @@ a {
                 console.log(response.data);
                 app.TeacherData = response.data;
                 app.is_show = false;
+                app.teacher_model.nama_teacher    = "";
+                app.teacher_model.kontak_teacher  = "";
+                app.teacher_model.Id_teacher      = "";
+                
+                
             })
             .catch(function(error){
                 console.log(error);

@@ -128,6 +128,43 @@
             </router-link>
           </li>
 
+          <li class ="nav-item">
+            <router-link to="/lessons">
+            <a href="#" class="nav-link">
+              <svg xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fad"
+              data-icon="space-shuttle"
+              role="img"
+              viewBox="0 0 640 512"
+              class="fa-starfighter svg-inline--fa fa-space-shuttle fa-w-20 fa-5x"
+              >
+                <g class="fa-group">
+                <path
+                  fill ="currentColor" 
+                  d="M208,448H144a16,16,0,0,1-16-16V304a16,
+                  16,0,0,1,16-16h64a16,16,0,0,1,16,16V432A16,
+                  16,0,0,1,208,448Zm96-128h32a16.00079,16.00079,
+                  0,0,0,16-16V256a32,32,0,0,0-64,0v48A16.00079,16.00079,
+                  0,0,0,304,320ZM632,128h-8V112.85547c0-7.96875-5.44531-15.35547-13.3125-16.63672A16.00991,
+                  16.00991,0,0,0,592,112v16h-8a8.00039,8.00039,0,0,0-8,8v16a8.00039,8.00039,0,0,0,8,8h8V431.14258c0,
+                  7.96875,5.44531,15.35742,13.3125,16.63867A16.01193,16.01193,0,0,0,624,432V160h8a8.00039,8.00039,0,0,
+                  0,8-8V136A8.00039,8.00039,0,0,0,632,128ZM496,288H432a16,16,0,0,0-16,16V432a16,16,0,0,0,16,16h64a16,16,0,
+                  0,0,16-16V304A16,16,0,0,0,496,288ZM56,128H48V112.85547C48,104.88672,42.55469,97.5,34.6875,96.21875A16.00991,16.00991,0,0,0,16,112v16H8a8.00039,8.00039,0,0,0-8,8v16a8.00039,8.00039,0,0,0,8,8h8V431.14258c0,7.96875,5.44531,15.35742,13.3125,16.63867A16.01193,16.01193,0,0,0,48,432V160h8a8.00039,8.00039,0,0,0,8-8V136A8.00039,8.00039,0,0,0,56,128Z" 
+                  class="fa-secondary"/>
+                <path 
+                  fill ="currentColor"
+                  d="M512,352v80a16,16,0,0,1-16,16H432a16,16,0,0,1-16-16V352H384V256L353.75,14.01562A16.00035,16.00035,0,0,0,337.87322,0H302.125a15.99834,15.99834,0,0,0-15.87478,14.01386L256,256v96H224v80a16,16,0,0,1-16,16H144a16,16,0,0,1-16-16V352H48v76.79883L176,480v16a16.00079,16.00079,0,0,0,16,16h16a16.00079,16.00079,0,0,0,16-16V480H416v16a16.00079,16.00079,0,0,0,16,16h16a16.00079,16.00079,0,0,0,16-16V480l128-51.20117V352ZM352,304a16.00079,16.00079,0,0,1-16,16H304a16.00079,16.00079,0,0,1-16-16V256a32,32,0,0,1,64,0Z" 
+                  class="fa-primary"/>
+                </g>
+          
+              </svg> 
+              <span class="link-text">Lessons</span>
+            </a>
+           </router-link>
+          </li>
+
           <li class="nav-item">
             <router-link to="/teacher">
               <a href="#" class="nav-link">
@@ -161,7 +198,9 @@
         </ul>
       </nav>
     </div>
-    <router-view/>
+    <div style="margin-left:20px; margin-right:30px;">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -175,6 +214,13 @@
       --bg-primary: #23232e;
       --bg-secondary:#141418;
       --transition-speed: 600ms;
+
+      --backgroundColor: rgba(246, 241, 209);
+      --colorShadeA: rgb(106, 163, 137);
+      --colorShadeB: rgb(121, 186, 156);
+      --colorShadeC: rgb(150, 232, 195);
+      --colorShadeD: rgb(187, 232, 211);
+      --colorShadeE: rgb(205, 255, 232);
   }
 
   body{
@@ -205,6 +251,7 @@
   }
 
   .navbar {
+      z-index: 10;
       width: 5rem;
       height: 100vh;
       position: fixed;
@@ -292,6 +339,66 @@
       transform: rotate(-180deg);
       
   }
+
+  button {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        outline: none;
+        border: 0;
+        vertical-align: middle;
+        text-decoration: none;
+        font-size: 0.7rem;
+        color:var(--colorShadeA);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-family: inherit;
+    }
+
+    button.big-button{
+        padding: 1em 2em;
+        border: 2px solid var(--colorShadeA);
+        border-radius: 1em;
+        background: var(--colorShadeE);
+        transform-style: preserve-3d;
+        transition: all 175ms cubic-bezier(0, 0, 1, 1);
+    }
+
+    button.big-button::before, input[type="text"]::before {
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--colorShadeC);
+        border-radius: inherit;
+        box-shadow: 0 0 0 2px var(--colorShadeB), 0 0.75em 0 0 var(--colorShadeA);
+        transform: translate3d(0, 0.75em, -1em);
+        transition: all 175ms cubic-bezier(0, 0, 1, 1);
+    }
+
+    button.big-button:hover {
+  background: var(--colorShadeD);
+  transform: translate(0, 0.375em);
+}
+
+button.big-button:hover::before {
+  transform: translate3d(0, 0.75em, -1em);
+}
+
+button.big-button:active {
+            transform: translate(0em, 0.75em);
+}
+
+button.big-button:active::before {
+  transform: translate3d(0, 0, -1em);
+  
+      box-shadow: 0 0 0 2px var(--colorShadeB), 0 0.25em 0 0 var(--colorShadeB);
+
+}
 
 </style>
 

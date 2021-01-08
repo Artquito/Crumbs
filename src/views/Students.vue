@@ -1,36 +1,61 @@
 <template>
 <div class="container">
     <transition name="fade">
-            <div class="overlay" v-if="is_show" @click="is_show = false"></div>
+            <div v-if="show_popup">
+                <div class="popup" style="z-index:5">
+                    <p style="position:absolute;right:20px;top:0;color:red;cursor:pointer;"  @click="openClosePopup()">X</p>
+                    <p><b>Add Student</b></p>
+                    <div class="popup-content" style="margin-top:30px">
+                        <form @submit.prevent="Insert_Update_Student_Data()" class="teacherInsertForm">
+                            <input type="text" required v-model="Student_Data_Catch.Student_Name" name="nameInput" placeholder="Nama">
+                            <input type="text" required v-model="Student_Data_Catch.Student_Age" placeholder="Umur">
+                            <input type="text" required v-model="Student_Data_Catch.Student_Contact" placeholder="Kontak">
+                            <input class="rounded-button" value="Go" type="submit">
+                        </form>
+                    </div>
+                </div>
+                <div class="overlay" v-if="show_popup"  style="position:fixed" @click="openClosePopup()"></div>
+            </div>
+
+            <div v-if="show_student_progress">
+                <div class="popup" style="z-index:5;width:300px">
+                    <p><b>Student Progress</b></p>
+                     <p style="position:absolute;right:20px;top:0;color:red;cursor:pointer;"  @click="show_student_progress = false">X</p>
+                    <div v-for="item in Student_Progress" style="border:1px solid var(--backgroundColor);padding:8px 12px">
+                        {{item.Curriculum_Name}}<br/>
+                        {{item.Curriculum_Year}}
+                    </div>
+                    <div v-if="Student_Progress.length == 0" style="background-color:#FEE2E2;color:#EF4444;padding: 5px 14px;position:relative">
+                        <p style="font-size:12px"><b>Students doesn't have progress yet</b></p>
+                    </div>
+                </div>
+                <div class="overlay" v-if="show_student_progress" style="position:fixed" @click="show_student_progress = false"></div>
+            </div>
     </transition>
 
     <main>  
-        <div class="popup">
-            <div class="popup-content">
-                <form @submit.prevent="Insert_Update_Student_Data()" class="teacherInsertForm">
-                    <input type="text" required v-model="Student_Data_Catch.Student_Name" name="nameInput" placeholder="Nama">
-                    <input type="text" required v-model="Student_Data_Catch.Student_Age" placeholder="Umur">
-                    <input type="text" required v-model="Student_Data_Catch.Student_Contact" placeholder="Kontak">
-                    <input class="rounded-button" value="Go" type="submit">
-                </form>
-            </div>
-        </div>
-        
-       <h1>Student Management</h1>
-        <button>Tambah Murid</button>
-        <button></button>
-        <table>
+
+        <h1>Student Management</h1>
+        <button @click="openClosePopup()" class="big-button">Tambah Murid</button>
+        <table style="margin-top:40px;margin-bottom:50px;">
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Age</th>
                 <th>Contact</th>
+                <th>Aksi</th>
             </tr>    
-            <tr v-for="(Student_Data_Instance,index) in Student_Data" @click="Student_Data_Catch = Student_Data_Instance">
+            <tr v-for="(Student_Data_Instance,index) in Student_Data" >
                     <td>{{Student_Data_Instance.Student_Id}}</td>
-                    <td>{{Student_Data_Instance.Student_Name}}</td>
+                    <td @click="Student_Data_Catch = Student_Data_Instance; show_popup = true" style="cursor:pointer"><u>{{Student_Data_Instance.Student_Name}}</u></td>
                     <td>{{Student_Data_Instance.Student_Age}}</td>
                     <td>{{Student_Data_Instance.Student_Contact}}</td>
+                    <td>
+                        <div style="margin-bottom:10px;font-size:0.5rem">
+                            <button class="big-button" style="margin-right:5px" @click="Student_Data_Catch = Student_Data_Instance; show_popup = true">Edit</button>
+                            <button class="big-button" @click="Get_Student_Progress(Student_Data_Instance.Student_Id)">View</button>
+                        </div>
+                    </td>
             </tr>
         </table>
    </main> 
@@ -81,7 +106,6 @@
         padding-left: 30px;
         padding-bottom:30px;
         padding-top: 30px;
-        box-shadow: 0 2px 15px rgba(64,64,64,.7);
     }
     .popup input{
         background: #141418;
@@ -133,7 +157,7 @@
             }
 
             tr:nth-child(even) {
-            background-color: #dddddd;
+            background-color: #27ae60;
             }
 
 </style>
@@ -150,7 +174,10 @@ export default {
                 Student_Contact:"",
                 Student_Id:"",
             },
+            Student_Progress : [],
             is_show: false,
+            show_popup : false,
+            show_student_progress : false
         }
     },
     methods: {
@@ -167,7 +194,33 @@ export default {
                 console.log(error);
 
             });
-            
+        },
+
+        Get_Student_Progress:function(id){
+            var app = this;
+            app.show_student_progress = true;
+            axios.get('http://localhost/CrumbsAPI/Get_Students_Progress.php?id=' + id)
+            .then(function (response){
+                app.Student_Progress = response.data;
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        },
+
+        openClosePopup : function(){
+            this.Student_Data_Catch = {
+                Student_Name : "",
+                Student_Age : "",
+                Student_Contact : "",
+                Student_Id:"",
+            }
+            if(this.show_popup == true){
+                this.show_popup = false;
+            }
+            else{
+                this.show_popup = true;
+            }
         },
         Insert_Update_Student_Data:function(){
 
@@ -187,7 +240,7 @@ export default {
                     Student_Contact : "",
                     Student_Id:"",
                 }
-                app.is_show = false;
+                app.show_popup = false;
             })
             .catch(function(error){
                 console.log(error);

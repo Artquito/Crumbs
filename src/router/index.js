@@ -8,6 +8,7 @@ import Class_Manager from '../views/Classes.vue'
 import Student_Manager from '../views/Students.vue'
 import Test from '../views/Test.vue'
 import Lesson_Manager from '../views/Lessons.vue' 
+import Lesson_Box from '../views/Lesson_Box.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,7 +22,6 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard
   },
-
   {
     path: '/teacher',
     name: 'TeacherManager',
@@ -48,10 +48,15 @@ const routes = [
     component:Test
   },
   {
-    path:'/lessons',
-    name:'Student_Manager',
+    path:'/lessons/:Id/:Curriculum_Name/:Curriculum_Year',
+    name:'Lesson_Manager',
     component:Lesson_Manager
-  }
+  },
+  {
+    path:"/lessons",
+    name:"Lesson_Box",
+    component:Lesson_Box,
+  },
 
 ]
 

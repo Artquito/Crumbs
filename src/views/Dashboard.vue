@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
     .home{
         text-align:center;
         margin-left:0px;

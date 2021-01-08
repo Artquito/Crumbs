@@ -4,7 +4,6 @@
     <transition name="fade">
             <div class="overlay" v-if="Curriculum_Add_Is_Show" @click="Curriculum_Add_Is_Show = false"></div>
     </transition>
-    {{Curriculum_Data_Model}}
     <main>
         <transition name="fade">
                 <div v-if="Curriculum_Add_Is_Show" class="popup" style="z-index:6;">
@@ -24,19 +23,20 @@
                                 </template>
                             </vc-date-picker>
                             <!-- <input type="text" required v-model="Curriculum_Data_Model.Category_Id" placeholder="Category"> -->
-                            <select class="Category_List" v-model="Curriculum_Data_Model.Category_Id">
+                            <select  class="Category_List" v-model="Curriculum_Data_Model.Category_Id">
+                                <option value="" selected disabled hidden>Curricullum Category</option>
                                 <option 
                                 v-for="(Category_Item,index) in Category_Data" :key='index' :value="Category_Item.Category_Id">
                                 <!-- list item -->{{Category_Item.Category_Name}}
                                 </option>
                             </select>
 
-                            <div class="button">
+                            <div class="button" style="margin: 10px 0 15px 0">
                             <button type="submit" style="background:transparent;border:none" value="tes">
                                 <div class="button" id="button-5">
                                     <div id="translate" @click="Curriculum_Add_Is_Show=false"></div>
                                         <a href="#">Let's Go!</a>
-                            </div>
+                                </div>
                             </button>
                             
                             </div>  
@@ -45,27 +45,31 @@
                 </div>
         </transition>
 
-        <h1>Curricullum Box</h1>
+        <h1>Curricullum List</h1>
 
-        <button @click="Curriculum_Add_Is_Show=true">Make Curricullum</button>
-        <table>
+        <button style="margin: 0 10px 10px 0px;" class="big-button" @click="Curriculum_Add_Is_Show=true">Make Curricullum</button>
+        <table style="margin-top:28px;">
             <tr>
                 <th>ID</th>
                 <th>Curricullum</th>
                 <th>Category</th>
                 <th>Year</th>
-                <th>Buttons</th>
+                <th style="text-align:center;">Buttons</th>
             </tr>    
             <tr v-for="(Shown_Curriculum_Data, index) in Curriculum_Data"  :key='index' >
-                <td>{{Shown_Curriculum_Data.Curriculum_Id}}</td>
-                <td>{{Shown_Curriculum_Data.Curriculum_Name}}</td>
-                <td>{{Shown_Curriculum_Data.Category_Name}}</td>
-                <td>{{Shown_Curriculum_Data.Curriculum_Year}}</td>
-                <td style="display: flex; ">
-                    <button class="edit">
+                    <td>{{Shown_Curriculum_Data.Curriculum_Id}}</td>
+                    <td>
+                            <router-link v-bind:to="'/lessons/' +  Shown_Curriculum_Data.Curriculum_Id + '/' + Shown_Curriculum_Data.Curriculum_Name + '/' + Shown_Curriculum_Data.Curriculum_Year" style="color: solid #ff6188;">
+                                <p style="color: var(--colorShadeA); margin:0;"><b>{{Shown_Curriculum_Data.Curriculum_Name}}</b></p>
+                            </router-link>
+                    </td>
+                    <td>{{Shown_Curriculum_Data.Category_Name}}</td>
+                    <td>{{Shown_Curriculum_Data.Curriculum_Year}}</td>
+                <td style="white-space:nowrap; width: 1.5rem;">
+                    <button class="edit big-button" style="font-size:0.6rem;margin-right:0px" @click="alert('tes')">
                     edit
                     </button>
-                    <button class="delete" @click="Delete_Curriculum_Data(Shown_Curriculum_Data.Curriculum_Id)">
+                    <button class="delete big-button" style="font-size:0.6rem;" @click="Delete_Curriculum_Data(Shown_Curriculum_Data.Curriculum_Id)">
                     delete
                     </button>
                 </td>
@@ -77,12 +81,18 @@
 </template>
 
 <style scoped>
+
+
 .Category_List{
-    margin: 15px 0;
+    background: #141418;
+    color: #b6b6b6;
+    margin-top: 10px;
+    width: 100%;
+    height: 2.5em;
 }
 
 button{
-    margin: 0 10px 10px 0px;
+    margin: 10px 10px;
 }
 
 /*table style*/
@@ -101,6 +111,8 @@ table {
         tr:nth-child(even) {
         background-color: #2d3436;
         }
+
+
 
 </style>
 
